@@ -1,0 +1,8 @@
+name: GCoin
+description: each player has a balance and each player can send from their balance to other player.
+author: Mazyar8
+main: dev.mazyar8.gcoin.GCoin
+version: 1.8
+commands:
+  gcoin:
+  pay:
