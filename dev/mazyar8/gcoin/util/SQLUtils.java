@@ -11,16 +11,24 @@ import dev.mazyar8.gcoin.mysql.MySQL;
 public class SQLUtils {
 	
 	public static void add(Balance balance) {
+		String query = "INSERT INTO " + MySQL.getTableName() + "(username, amount, record) VALUES (?, ?, ?)";
 		try {
-			MySQL.getStatement().executeUpdate("INSERT INTO " + MySQL.getTableName() + "(username, amount, record) VALUES ('" + balance.getOwner() + "', '" + String.valueOf(balance.getAmount()) + "', '" + String.valueOf(balance.getRecord() + "')"));
+			PreparedStatement preparedStatement = MySQL.getPreparedStatement(query);
+			preparedStatement.setString(1, balance.getOwner());
+			preparedStatement.setString(2, String.valueOf(balance.getAmount()));
+			preparedStatement.setString(3, String.valueOf(balance.getRecord()));
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static void set(String phrase, String value, String filter) {
+		String query = "UPDATE " + MySQL.getTableName() + " SET " + phrase + " = ? " + filter;
 		try {
-			MySQL.getStatement().executeUpdate("UPDATE " + MySQL.getTableName() + " SET " + phrase + " = " + value + " " + filter);
+			PreparedStatement preparedStatement = MySQL.getPreparedStatement(query);
+			preparedStatement.setString(1, value);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
